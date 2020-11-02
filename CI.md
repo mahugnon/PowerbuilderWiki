@@ -63,7 +63,11 @@ Once you install Jinkins, run it
 - :white_check_mark: Click  <kbd>Build action</kbd> > <kbd>Execute Windows batch command</kbd>. Here we will add batch script to run `PBUnit` tests and reports tests results in `JUnit` format. The batch script should be like:
   
   ```batch
+  @REM Run PBUnit tests
+  C:\powerUnit\pbunitgui.exe path_to_jenkins_workspace\job_name\Taget_name.pbt
   
+  @REM Transform PBUnit report to JUnit report format
+java -jar c:\saxon\saxon.jar -s:path_to_jenkins_workspace\job_name\pbunit-results.xml -xsl:C:\ci-utilities\junit.xsl -o:path_to_jenkins_workspace\job_name\junit-report.xml
   ```
 - ![Select batch](https://link)
 
