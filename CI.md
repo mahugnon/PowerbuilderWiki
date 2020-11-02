@@ -85,5 +85,6 @@ Once you install Jinkins, run it
 
 - :white_check_mark: Paste the following code in the textarea by replacing path accordingly
   ```batch
+  /d " path_to_jenkins_workspace\job_name\Taget_name.pbt" /o "path_to_jenkins_workspace\job_name\executable_name.exe" /w n /i /m n /x 32 /bg y /p "PowerBuilder Enterprise Series" /cp "CIM" /de "Appeon Product File" /v "1.0.0.1" /vn "1.0.0.1" /fv "1.0.0.1" /fvn "1.0.0.1" /ge 0 
   ``
 
