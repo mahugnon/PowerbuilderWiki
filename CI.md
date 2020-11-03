@@ -1,4 +1,4 @@
-# Continuous integration with Powerbuilder
+# :hear_no_evil: :hear_no_evil: Continuous integration with Powerbuilder :hear_no_evil: :hear_no_evil:
 
 To fully configure a continuous integration tool for Powerbuilder with basic function like: code update on commit which include pbls generation, unit tests running and report and executable generation, you need to follow serveral steps. Here I will indicate each steps and discuss possible problem or wolkaround needed to make it work. The use case will be a simple Powerbuilder project with Jinkins CI tool.  
 
