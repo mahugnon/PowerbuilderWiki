@@ -1,1 +1,0 @@
-# Think object with Powerbuilder
