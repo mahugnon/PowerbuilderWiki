@@ -30,4 +30,4 @@ scc close
 end session
 ```
 
-Powerbuilder 19 R3 is suppose to fix all these issues. Find the officiel description [:point_right: here](https://docs.appeon.com/pb2019r3/whats_new/Source_control_enhancements.html)
+Powerbuilder 19 R3 is suppose to fix all these issues. Find the officiel description [here](https://docs.appeon.com/pb2019r3/whats_new/Source_control_enhancements.html)
