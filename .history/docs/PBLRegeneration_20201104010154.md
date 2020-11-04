@@ -1,4 +1,4 @@
-# PBL regeneration with Powerbuilder Orcascr170
+# :information_desk_person: :poop: PBL regeneration with Powerbuilder Orcascr170
 
 Powerbuilder binary files **.pbl**  represents  Powerbuilder libraries and can only be read by the Powerbuilder IDE.
 For a  versioned Powerbuilder project, only sources code are up to date(file extension **.sru,srf,srd,srw .etc.**), but **pbl** are not. As consequence, when you run  just cloned or checkedout project, an  outdated version is run.
@@ -12,11 +12,11 @@ For each of these library folders, a file  **libraryName.pbg**. A  **libraryName
 By default **libraryName.pbg** files are saved with **utf-8 bom** encoding.  
 For the PBL regenerating to work,
 
--  you need  to first copy **.pbg** files  from **ws_objects\libraryName** to **ws_objects**;
+- :white_check_mark: you need  to first copy **.pbg** files  from **ws_objects\libraryName** to **ws_objects**;
 
--  override these  **libraryName.pbg** files by correcting source files path. Because by default, it suppose that pbg files and sources files are in the same directory;
+- :white_check_mark: override these  **libraryName.pbg** files by correcting source files path. Because by default, it suppose that pbg files and sources files are in the same directory;
 
--  you need to change **libraryName.pbg** file encoding from **utf-8 bom** to **utf-8**.
+- :white_check_mark: you need to change **libraryName.pbg** file encoding from **utf-8 bom** to **utf-8**.
 Finally, you should edit the following script and run it
 
 ```Powerbuilder

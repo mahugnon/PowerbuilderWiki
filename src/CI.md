@@ -1,0 +1,118 @@
+# :hear_no_evil: :hear_no_evil: Continuous integration with Powerbuilder :hear_no_evil: :hear_no_evil:
+
+To fully configure a continuous integration tool for Powerbuilder with basic function like: code update on commit which include pbls generation, unit tests running and report and executable generation, you need to follow serveral steps. Here I will indicate each steps and discuss possible problem or wolkaround needed to make it work. The use case will be a simple Powerbuilder project with Jinkins CI tool.  
+
+## :point_right: Requirement
+
+To follow along this documentation,  you need to have the following setup in your machine :monkey_face: :
+
+- :white_check_mark: Have basic knowledge of version controle system. Here **Git** is the use case.
+- :white_check_mark: Have java installed in your machine. I have Jdk 1.8
+- :white_check_mark: The powerbuilder IDE: I'm using the Powerbuilder 2017 version
+- :white_check_mark: Jenkins CI tool
+- :white_check_mark: Jenkins PBC pluggin file from [:point_right: github](https://github.com/bruce-armstrong/pbc_compile-plugin-2019.git) and unzip it
+- :white_check_mark: Jenkins Orcascript pluggin form [:point_right: github](https://github.com/bruce-armstrong/orcascript-plugin-2019.git) and unzip it
+- :white_check_mark: PBUnit: there are two repositories on github. I suggest  that download the one  [:point_right: here on github](https://github.com/mahugnon/PowerUnitHonore.git) which is  a reorganised version of [marivard/powerunit](https://github.com/marivard/powerunit.git)
+- :white_check_mark:  Download  and install `xsl` transformation tool  following [:point_right: this link](https://dev.pageseeder.com/get_started/tutorials/how_to_run_xslt_from_the_command_line.html)
+- :white_check_mark: Download the example project we will be using  form [:point_right: github](https://github.com/mahugnon/Powerbuilder-CI-Demo.git)
+
+With these :ok_hand:, we're ready to go   :grin:.
+
+## :point_right: Configure PBUnit
+
+- :white_check_mark: Create a new folder in `C:\pbUnit`
+- :white_check_mark: Copy the content of `PowerUnitHonore/package/` folder into the `C:\pbUnit`
+
+## :point_right: Prepare the example project
+
+- :white_check_mark: Remove the `.git` folder from the project
+- :white_check_mark: Create your own github repository
+- :white_check_mark: Initialize git in for the project  and push it in your own repository
+- :white_check_mark: For technical reason that I expained  [:point_right: here](https://github.com/mahugnon/PowerbuilderWiki/blob/master/PBLRegeneration.md) for interrested reader, copy the contents of the directory `Powerbuilder-CI-Demo/resources/*.pbg`  into `Powerbuilder-CI-Demo`
+
+
+## :point_right: Intallation of Jinkins pluggins
+
+Once you install Jinkins, run it
+
+- :white_check_mark: Go to <kbd>Configure Jenkins</kbd> > <kbd>Plugins management</kbd>  >  <kbd>Advance</kbd>.
+
+- :white_check_mark: In the section <kbd> Submit a plugin </kbd> clic on  <kbd>choose a file</kbd> and select  `orcascript-2019.hpi`, submit and restart Jenkins  
+- :white_check_mark: Do the same step as previous and select `pbc-compile-2019.hpi`, submit and restart Jenkins
+
+## :point_right: Configure new Powerbuilder project job on Jenkins
+  
+- :white_check_mark: Click on <kbd>New Job</kbd>
+- :white_check_mark:  name it  `Powerbuilder-CI-Demo` and select `free-style project`
+- :white_check_mark:  In the Source code management section, select `Github`  paste your project git url 
+
+![Source control system](resources/jenkins-sourcemanagement.png)
+  
+
+- :white_check_mark: Select  <kbd>Add key</kbd> button to add your github credentials as follow: 
+  
+![Github credention](resources/jenkins-sourcemanagement-credentials.png)
+
+
+  
+- :white_check_mark:  Save and <kbd>Tigger build<kbd>
+  
+- :white_check_mark: Come back to configuration
+
+- :white_check_mark: Sroll to the section  <kbd>Tigger build</kbd> and check <kbd>Build periodically</kbd>.  
+- :white_check_mark: Write `H/15 * * * *`  in the textarea.  Like that build
+-  will be automatically triggered each `15 minute` 
+  
+  
+ ![Trigger build](resources/jenkins-sourcemanagement-triggerBuild.png)
+
+
+
+- :white_check_mark: Next, click <kbd>Add build action</kbd>. Choose <kbd>Create Powerbuilder PBLs from source code using OrcaScript</kbd>
+
+- :white_check_mark: Fill the PBT file text field with 
+  
+  
+  `path_to_jenkins_workspace/job_name/pbt_name.pbt`
+![PBLs generation](resources/jenkins-sourcemanagement-pathTo_pbtForPBLUpdating.png)
+
+
+
+- :white_check_mark: Click  <kbd> Add build action</kbd> > <kbd>Execute Windows batch command</kbd>. Here we will add batch script to run `PBUnit` tests and reports tests results in `JUnit` format. The batch script should be like:
+  
+```batch
+
+  @REM Run PBUnit tests
+  C:\powerUnit\pbunitgui.exe path_to_jenkins_workspace\job_name\Taget_name.pbt
+  
+  @REM Transform PBUnit report to JUnit report format
+    java -jar c:\saxon\saxon.jar -s:path_to_jenkins_workspace\job_name\pbunit-results.xml -xsl:C:\ci-utilities\junit.xsl -o:path_to_jenkins_workspace\job_name\junit-report.xml
+```
+
+![Select batch](resources/jenkins-sourcemanagement-TestExecution.png)
+
+
+
+- :white_check_mark: Click <kbd>Add build action</kbd> > <kbd>Create a Powerbuilder target using PBC</kbd>
+
+- :white_check_mark: Paste the following code in the textarea by replacing     path accordingly
+  
+    ```batch
+        /d " path_to_jenkins_workspace\job_name\Taget_name.pbt" /o "path_to_jenkins_workspace\job_name\executable_name.exe" /w n /i /m n /x 32 /bg y /p "PowerBuilder Enterprise Series" /cp "CIM" /de "Appeon Product File" /v "1.0.0.1" /vn "1.0.0.1" /fv "1.0.0.1" /fvn "1.0.0.1" /ge 0 
+    ```
+  
+
+- :white_check_mark: Click <kbd> Choose action after build</kbd> > <kbd> Archieve artefacts</kbd> 
+- :white_check_mark: Fill the text field with `**.pbd,**.exe`
+  
+  ![Archieve](resources/jenkins-sourcemanagement-archieveArtefacts.png)
+
+
+- :white_check_mark: Click <kbd> Choose action after build</kbd> > <kbd> Pubish JUnit tests results</kbd>
+- :white_check_mark: Fill the text field with `junit-report.xml`
+  
+  ![Junit results](resources/jenkins-sourceTests-report.png)
+
+- :white_check_mark: Save and trigger a new build
+
+## :smiley::smiley: Thank for reading :smiley::smiley:
