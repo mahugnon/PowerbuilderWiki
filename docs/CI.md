@@ -4,7 +4,7 @@ To fully configure a continuous integration tool for Powerbuilder with basic fun
 
 ##  Requirement
 
-To follow along this documentation,  you need to have the following setup in your machine :monkey_face: :
+To follow along this documentation,  you need to have the following setup in your machine :
 
 -  Have basic knowledge of version controle system. Here **Git** is the use case.
 -  Have java installed in your machine. I have Jdk 1.8
@@ -16,7 +16,7 @@ To follow along this documentation,  you need to have the following setup in you
 -   Download  and install `xsl` transformation tool  following [ this link](https://dev.pageseeder.com/get_started/tutorials/how_to_run_xslt_from_the_command_line.html)
 -  Download the example project we will be using  form [ github](https://github.com/mahugnon/Powerbuilder-CI-Demo.git)
 
-With these :ok_hand:, we're ready to go   :grin:.
+With these , we're ready to go  .
 
 ##  Configure PBUnit
 
@@ -115,4 +115,4 @@ Once you install Jinkins, run it
 
 -  Save and trigger a new build
 
-## :smiley::smiley: Thank for reading :smiley::smiley:
+##  Thank for reading 
